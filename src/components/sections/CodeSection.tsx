@@ -31,59 +31,56 @@ export const CodeSection = () => {
   }, [])
 
   return (
-    <div className="theme-purple relative w-full h-screen flex items-center justify-center">
-      {/* Purple accent background */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-cube-purple/5 to-transparent" />
-      
+    <div className="relative w-full h-screen flex items-center justify-center bg-background">
       <div className="relative z-10 text-center max-w-6xl mx-auto px-8">
-        <h2 className="section-title mb-8">
-          <span className="text-cube-purple">CODE</span> ARCHITECTURE
+        <h2 className="text-5xl md:text-6xl font-light text-white tracking-widest mb-16">
+          CODE
         </h2>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Code Display */}
-          <div className="bg-card border border-cube-purple/20 p-8 text-left">
-            <div className="flex items-center mb-4">
+          <div className="bg-black/20 border border-white/10 p-8 text-left rounded-none">
+            <div className="flex items-center mb-6">
               <div className="flex space-x-2">
-                <div className="w-3 h-3 rounded-full bg-destructive" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-cube-green" />
+                <div className="w-3 h-3 rounded-full bg-white/20" />
+                <div className="w-3 h-3 rounded-full bg-white/20" />
+                <div className="w-3 h-3 rounded-full bg-white/20" />
               </div>
-              <span className="ml-4 text-sm text-muted-foreground">mesh-studios.js</span>
+              <span className="ml-4 text-sm text-white/40 font-mono">mesh-studios.js</span>
             </div>
             
-            <pre className="code-text text-sm text-cube-purple overflow-hidden">
+            <pre className="text-sm text-white/80 font-mono overflow-hidden">
               <code>{codeSnippets[currentCode]}</code>
             </pre>
           </div>
           
-          {/* Capabilities */}
-          <div className="space-y-6">
-            <div className="text-left">
-              <h3 className="text-xl font-semibold mb-4 text-cube-purple">CORE TECHNOLOGIES</h3>
+          {/* Technologies */}
+          <div className="space-y-8">
+            <div className="text-left space-y-4">
+              <div className="text-lg text-white/80 font-mono">CORE TECHNOLOGIES</div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="code-text">React Three Fiber</span>
-                  <div className="w-32 h-1 bg-muted">
-                    <div className="w-full h-full bg-cube-purple" />
+                  <span className="text-white/60 font-mono">React Three Fiber</span>
+                  <div className="w-32 h-px bg-white/20">
+                    <div className="w-full h-full bg-white/60" />
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="code-text">GLSL Shaders</span>
-                  <div className="w-32 h-1 bg-muted">
-                    <div className="w-5/6 h-full bg-cube-purple" />
+                  <span className="text-white/60 font-mono">GLSL Shaders</span>
+                  <div className="w-32 h-px bg-white/20">
+                    <div className="w-5/6 h-full bg-white/60" />
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="code-text">WebGL Optimization</span>
-                  <div className="w-32 h-1 bg-muted">
-                    <div className="w-4/5 h-full bg-cube-purple" />
+                  <span className="text-white/60 font-mono">WebGL Optimization</span>
+                  <div className="w-32 h-px bg-white/20">
+                    <div className="w-4/5 h-full bg-white/60" />
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="code-text">Performance Analytics</span>
-                  <div className="w-32 h-1 bg-muted">
-                    <div className="w-11/12 h-full bg-cube-purple" />
+                  <span className="text-white/60 font-mono">Performance Analytics</span>
+                  <div className="w-32 h-px bg-white/20">
+                    <div className="w-11/12 h-full bg-white/60" />
                   </div>
                 </div>
               </div>
@@ -91,16 +88,10 @@ export const CodeSection = () => {
           </div>
         </div>
 
-        <div className="mt-12 code-text text-cube-purple/70">
-          // Building the infrastructure for tomorrow's interactive experiences
+        <div className="mt-16 text-sm text-white/20 font-mono">
+          // Building infrastructure for tomorrow's interactive experiences
         </div>
       </div>
-
-      {/* Purple corner accents with diagonal emphasis */}
-      <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-cube-purple opacity-50" />
-      <div className="absolute top-8 right-8 w-16 h-16 border-r-2 border-t-2 border-cube-purple opacity-50" />
-      <div className="absolute bottom-8 left-8 w-16 h-16 border-l-2 border-b-2 border-cube-purple opacity-50" />
-      <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-cube-purple opacity-50" />
     </div>
   )
 }
