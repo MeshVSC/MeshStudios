@@ -2,41 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* MESH STUDIOS - Clean, flat design system with strategic colors and 3D animations */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors - clean, minimal palette */
+    --background: 0 0% 5%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - pure white for Mesh Studios branding */
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - subtle grays for structure */
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 88%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 95%;
 
+    /* Strategic accent colors for sections */
+    --cube-blue: 210 100% 60%;
+    --cube-blue-muted: 210 50% 25%;
+    --cube-green: 120 100% 50%;
+    --cube-green-muted: 120 40% 20%;
+    --cube-purple: 280 100% 65%;
+    --cube-purple-muted: 280 50% 25%;
+
+    /* System colors */
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --radius: 0rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -55,43 +64,29 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
+  /* Dark mode maintains the same aesthetic */
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 0 0% 5%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 88%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 95%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
   }
+}
 }
 
 @layer base {
@@ -100,6 +95,88 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-mono overflow-hidden;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Roboto Mono', monospace;
   }
+
+  /* Typography system */
+  .mesh-title {
+    @apply text-6xl md:text-8xl font-bold tracking-tight text-primary;
+    font-family: 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .section-title {
+    @apply text-2xl md:text-4xl font-semibold text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .code-text {
+    @apply font-mono text-muted-foreground;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', 'Roboto Mono', monospace;
+  }
+}
+
+/* Glitch animation for code text */
+@keyframes glitch {
+  0% { transform: translate(0); opacity: 1; }
+  10% { transform: translate(-2px, 2px); opacity: 0.8; }
+  20% { transform: translate(-1px, -1px); opacity: 0.9; }
+  30% { transform: translate(1px, 2px); opacity: 0.7; }
+  40% { transform: translate(1px, -1px); opacity: 0.8; }
+  50% { transform: translate(-1px, 2px); opacity: 0.6; }
+  60% { transform: translate(-1px, 1px); opacity: 0.9; }
+  70% { transform: translate(1px, 1px); opacity: 0.8; }
+  80% { transform: translate(-1px, -1px); opacity: 0.7; }
+  90% { transform: translate(2px, 1px); opacity: 0.9; }
+  100% { transform: translate(0); opacity: 1; }
+}
+
+/* Cube transition animations */
+@keyframes cube-rotate-x {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(90deg); }
+}
+
+@keyframes cube-rotate-y {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(90deg); }
+}
+
+@keyframes cube-rotate-diagonal {
+  from { transform: rotateX(0deg) rotateY(0deg); }
+  to { transform: rotateX(45deg) rotateY(45deg); }
+}
+
+/* Section theme classes */
+.theme-blue {
+  --accent: var(--cube-blue);
+  --accent-muted: var(--cube-blue-muted);
+}
+
+.theme-green {
+  --accent: var(--cube-green);
+  --accent-muted: var(--cube-green-muted);
+}
+
+.theme-purple {
+  --accent: var(--cube-purple);
+  --accent-muted: var(--cube-purple-muted);
+}
+
+/* Custom animations */
+.animate-glitch {
+  animation: glitch 0.3s ease-in-out;
+}
+
+.animate-cube-x {
+  animation: cube-rotate-x 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-cube-y {
+  animation: cube-rotate-y 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-cube-diagonal {
+  animation: cube-rotate-diagonal 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
