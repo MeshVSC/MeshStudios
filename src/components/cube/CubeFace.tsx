@@ -46,7 +46,7 @@ export const CubeFace = ({
       <meshStandardMaterial
         color={color}
         transparent
-        opacity={opacity}
+        opacity={opacity * 3}
         side={THREE.DoubleSide}
         roughness={0.1}
         metalness={0.8}
