@@ -1,6 +1,6 @@
+
 import { useRef, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Box, Text3D } from '@react-three/drei'
 import { Mesh } from 'three'
 import * as THREE from 'three'
 
@@ -20,7 +20,7 @@ export const CubeFace = ({
   opacity = 0.1,
   isActive = false
 }: CubeFaceProps) => {
-  const meshRef = useRef<Mesh>(null!)
+  const meshRef = useRef<Mesh>(null)
   
   useFrame((state) => {
     if (meshRef.current && isActive) {
@@ -37,12 +37,12 @@ export const CubeFace = ({
   }, [position, rotation])
 
   return (
-    <Box 
+    <mesh 
       ref={meshRef}
-      args={[2, 2, 0.1]}
       position={position}
       rotation={rotation}
     >
+      <boxGeometry args={[2, 2, 0.1]} />
       <meshStandardMaterial
         color={color}
         transparent
@@ -51,6 +51,6 @@ export const CubeFace = ({
         roughness={0.1}
         metalness={0.8}
       />
-    </Box>
+    </mesh>
   )
 }
