@@ -74,6 +74,9 @@ const Index = () => {
 
   const CurrentSectionComponent = sections[currentSection].component
 
+  // Debug logging
+  console.log('Current section:', currentSection, 'Component:', CurrentSectionComponent.name)
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-background">
       {/* 3D Background Cube System */}
@@ -87,16 +90,24 @@ const Index = () => {
               key={section.id}
               position={[0, 0, index === 0 ? 0 : -2]}
               color={section.color || "#ffffff"}
-              opacity={index === currentSection ? 0.15 : 0.05}
+              opacity={index === currentSection ? 0.3 : 0.1}
               isActive={index === currentSection}
             />
           ))}
         </TransitionController>
       </CubeContainer>
 
-      {/* 2D Content Layer */}
-      <div className="absolute inset-0 z-10 w-full h-full">
+      {/* 2D Content Layer - with transition effects */}
+      <div className={`absolute inset-0 z-10 w-full h-full transition-all duration-1000 ${
+        isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+      }`}>
         <CurrentSectionComponent />
+      </div>
+
+      {/* Debug info */}
+      <div className="fixed top-4 left-4 z-50 bg-black/50 text-white p-2 rounded">
+        Section: {currentSection} ({sections[currentSection].name})
+        {isTransitioning && ' - Transitioning'}
       </div>
 
       {/* Section Navigation Indicator */}
