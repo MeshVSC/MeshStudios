@@ -79,30 +79,32 @@ const Index = () => {
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-background">
-      {/* 3D Background Cube System */}
-      <CubeContainer className="absolute inset-0 pointer-events-none">
-        <TransitionController 
-          currentSection={currentSection} 
-          isTransitioning={isTransitioning}
-        >
-          {sections.map((section, index) => (
-            <CubeFace
-              key={section.id}
-              position={[0, 0, index === 0 ? 0 : -2]}
-              color={section.color || "#ffffff"}
-              opacity={index === currentSection ? 0.3 : 0.1}
-              isActive={index === currentSection}
-            />
-          ))}
-        </TransitionController>
-      </CubeContainer>
-
-      {/* 2D Content Layer - with transition effects */}
+      {/* 2D Content Layer - this is the main content */}
       <div className={`absolute inset-0 z-10 w-full h-full transition-all duration-1000 ${
         isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
       }`}>
         <CurrentSectionComponent />
       </div>
+
+      {/* 3D Background - hidden during development, only show during transitions */}
+      {false && (
+        <CubeContainer className="absolute inset-0 pointer-events-none">
+          <TransitionController 
+            currentSection={currentSection} 
+            isTransitioning={isTransitioning}
+          >
+            {sections.map((section, index) => (
+              <CubeFace
+                key={section.id}
+                position={[0, 0, index === 0 ? 0 : -2]}
+                color={section.color || "#ffffff"}
+                opacity={0}
+                isActive={false}
+              />
+            ))}
+          </TransitionController>
+        </CubeContainer>
+      )}
 
       {/* Debug info */}
       <div className="fixed top-4 left-4 z-50 bg-black/50 text-white p-2 rounded">
