@@ -129,7 +129,8 @@ export default {
 			},
 			fontFamily: {
 				'mono': ['SF Mono', 'Monaco', 'Consolas', 'Roboto Mono', 'monospace'],
-				'sans': ['Inter', 'system-ui', 'sans-serif']
+				'sans': ['Inter', 'system-ui', 'sans-serif'],
+				DEFAULT: ['Inter', 'system-ui', 'sans-serif']
 			}
 		}
 	},
