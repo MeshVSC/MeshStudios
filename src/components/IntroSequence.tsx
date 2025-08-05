@@ -52,7 +52,7 @@ const glitchEffects = [
 
 export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
   const [phase, setPhase] = useState<'code-rain' | 'reality-quote' | 'build-quote' | 'complete'>('code-rain')
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const mousePosRef = useRef({ x: 0, y: 0 })
   const [showClickPrompt, setShowClickPrompt] = useState(false)
   const [glitchIntensity, setGlitchIntensity] = useState(0)
   const [realityText, setRealityText] = useState('')
@@ -91,10 +91,11 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
     }
   }, [showClickPrompt, phase])
 
-  // Track mouse position
+  // Track mouse position without causing re-renders
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY })
+      mousePosRef.current.x = e.clientX
+      mousePosRef.current.y = e.clientY
     }
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
@@ -169,7 +170,8 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
         }
 
         // Check mouse safe zone
-        const distance = Math.sqrt((line.x - mousePos.x) ** 2 + (line.y - mousePos.y) ** 2)
+        const { x: mouseX, y: mouseY } = mousePosRef.current
+        const distance = Math.sqrt((line.x - mouseX) ** 2 + (line.y - mouseY) ** 2)
         const inSafeZone = distance < 150
 
         if (!inSafeZone) {
@@ -198,7 +200,7 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
     return () => {
       clearInterval(interval)
     }
-  }, [phase, mousePos])
+  }, [phase])
 
   // Typing effect for reality quote
   useEffect(() => {
