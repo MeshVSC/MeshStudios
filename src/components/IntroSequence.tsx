@@ -105,10 +105,13 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
     }
   }, [showClickPrompt, phase])
 
-  // Track mouse position
+  // Track mouse position without causing re-renders
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      mousePosRef.current = { x: e.clientX, y: e.clientY }
+
+      mousePosRef.current.x = e.clientX
+      mousePosRef.current.y = e.clientY
+
     }
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
