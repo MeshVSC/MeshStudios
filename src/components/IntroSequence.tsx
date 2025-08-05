@@ -60,10 +60,24 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
   const [clickPromptText, setClickPromptText] = useState('')
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const autoCompleteTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const realityQuote = "Reality is no longer just what you see, hear, or touch"
   const buildQuote = "it's what you build"
   const clickPrompt = "CLICK TO PROCEED"
+
+  // Automatically proceed after a delay if no interaction occurs
+  useEffect(() => {
+    autoCompleteTimeoutRef.current = setTimeout(() => {
+      onComplete()
+    }, 15000)
+
+    return () => {
+      if (autoCompleteTimeoutRef.current) {
+        clearTimeout(autoCompleteTimeoutRef.current)
+      }
+    }
+  }, [onComplete])
 
   // Show click prompt after delay
   useEffect(() => {
@@ -239,6 +253,10 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
 
   // Handle click to proceed
   const handleClick = () => {
+    if (autoCompleteTimeoutRef.current) {
+      clearTimeout(autoCompleteTimeoutRef.current)
+    }
+
     if (phase === 'code-rain') {
       setPhase('reality-quote')
       setGlitchIntensity(1)
@@ -255,16 +273,28 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`fixed inset-0 z-50 cursor-pointer transition-all duration-1000 ${
         phase === 'build-quote' ? 'bg-white' : 'bg-black'
       }`}
       onClick={handleClick}
     >
+      <button
+        className="absolute top-4 right-4 z-50 px-3 py-1 text-sm text-white border border-white bg-black/40 hover:bg-black/60"
+        onClick={(e) => {
+          e.stopPropagation()
+          if (autoCompleteTimeoutRef.current) {
+            clearTimeout(autoCompleteTimeoutRef.current)
+          }
+          onComplete()
+        }}
+      >
+        Skip intro
+      </button>
       {/* Canvas Code Rain Background */}
       {phase === 'code-rain' && (
-        <canvas 
+        <canvas
           ref={canvasRef}
           className="absolute inset-0 pointer-events-none"
           style={{ zIndex: 1 }}
