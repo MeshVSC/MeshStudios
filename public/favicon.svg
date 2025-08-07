@@ -1,0 +1,9 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cube faces -->
+  <!-- Front face -->
+  <path d="M8 12 L24 12 L24 28 L8 28 Z" fill="white" stroke="black" stroke-width="1"/>
+  <!-- Top face -->
+  <path d="M8 12 L16 4 L32 4 L24 12 Z" fill="#e0e0e0" stroke="black" stroke-width="1"/>
+  <!-- Right face -->
+  <path d="M24 12 L32 4 L32 20 L24 28 Z" fill="#c0c0c0" stroke="black" stroke-width="1"/>
+</svg>
