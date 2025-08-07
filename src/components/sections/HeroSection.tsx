@@ -21,66 +21,59 @@ export const HeroSection = () => {
   
   const fullMeshText = "MESHSTUDIO"
 
-  // Glitch text typing animation - show 3 sentences first
+  // Glitch text animation - type first sentence only, then fade cycle
   useEffect(() => {
-    let sentenceIndex = 0
+    // Type first sentence
+    const firstSentence = glitchTexts[0]
+    let charIndex = 0
+    setGlitchDisplayText('')
     
-    const typeNextSentence = () => {
-      if (sentenceIndex < 3) {
-        const currentSentence = glitchTexts[sentenceIndex]
-        let charIndex = 0
-        setGlitchDisplayText('')
+    const typeInterval = setInterval(() => {
+      if (charIndex < firstSentence.length) {
+        setGlitchDisplayText(firstSentence.slice(0, charIndex + 1))
+        charIndex++
+      } else {
+        clearInterval(typeInterval)
         
-        const typeInterval = setInterval(() => {
-          if (charIndex < currentSentence.length) {
-            setGlitchDisplayText(currentSentence.slice(0, charIndex + 1))
-            charIndex++
-          } else {
-            clearInterval(typeInterval)
-            
-            // Wait 2 seconds, then type next sentence
-            setTimeout(() => {
-              sentenceIndex++
-              if (sentenceIndex < 3) {
-                typeNextSentence()
-              } else {
-                // After 3 sentences, show logo and continue with cycling
-                setGlitchTypingComplete(true)
-                setShowLogo(true)
-                startGlitchCycling()
-              }
-            }, 2000)
+        // Wait 2 seconds, then show sentences 2 and 3 with fade, then logo
+        setTimeout(() => {
+          let sentenceIndex = 1
+          
+          const showNextSentence = () => {
+            if (sentenceIndex < 3) {
+              setGlitchDisplayText('')
+              setTimeout(() => {
+                setGlitchDisplayText(glitchTexts[sentenceIndex])
+                sentenceIndex++
+                setTimeout(showNextSentence, 3000)
+              }, 100)
+            } else {
+              // After 3 sentences, show logo and start fade cycling
+              setGlitchTypingComplete(true)
+              setShowLogo(true)
+              startFadeCycling()
+            }
           }
-        }, 50) // typing speed
+          
+          showNextSentence()
+        }, 2000)
       }
-    }
+    }, 50) // typing speed
     
-    const startGlitchCycling = () => {
-      // Start cycling through remaining glitch texts
+    const startFadeCycling = () => {
+      // Start cycling through remaining glitch texts with fade effect
       const cycleInterval = setInterval(() => {
-        const nextIndex = (currentGlitchText + 1) % glitchTexts.length
-        setCurrentGlitchText(nextIndex)
-        
-        // Type the new sentence
-        const newSentence = glitchTexts[nextIndex]
-        let charIndex = 0
         setGlitchDisplayText('')
         
-        const typeInterval = setInterval(() => {
-          if (charIndex < newSentence.length) {
-            setGlitchDisplayText(newSentence.slice(0, charIndex + 1))
-            charIndex++
-          } else {
-            clearInterval(typeInterval)
-          }
-        }, 50)
+        setTimeout(() => {
+          const nextIndex = (currentGlitchText + 1) % glitchTexts.length
+          setCurrentGlitchText(nextIndex)
+          setGlitchDisplayText(glitchTexts[nextIndex])
+        }, 100)
       }, 3000)
       
       return () => clearInterval(cycleInterval)
     }
-    
-    // Start typing first sentence
-    typeNextSentence()
   }, [])
 
   // Logo and text timing - triggered when logo becomes visible

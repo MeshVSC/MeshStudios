@@ -139,7 +139,7 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
   const guiRef = useRef<dat.GUI | null>(null)
 
 
-  const realityQuote = "REALITY IS NO LONGER JUST WHAT YOU SEE, HEAR, OR TOUCH"
+  const realityQuote = "REALITY IS NO LONGER WHAT YOU SEE, HEAR, OR TOUCH"
   const buildQuote = "IT'S WHAT YOU BUILD"
   const clickPrompt = "CLICK TO PROCEED"
 
@@ -322,9 +322,47 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
-  // Glitch effect preview system
+  // Keyboard navigation and glitch effect preview system
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
+      // Section navigation shortcuts
+      if (e.key === '1') {
+        // Reset everything and restart from reality quote
+        setIsComplete(false)
+        setUserAdvanced(false)
+        setShowClickPrompt(false)
+        setGlitchIntensity(0)
+        setRealityText('')
+        setRealityLine1('')
+        setRealityLine2('')
+        setCurrentSenseWord('')
+        setRealityPhase('line1')
+        setBuildText('')
+        setPhase('reality-quote')
+        console.log('Restarted from: Reality Quote')
+        return
+      }
+      if (e.key === '2') {
+        setPhase('glitch-transition')
+        console.log('Jumped to: Glitch Transition')
+        return
+      }
+      if (e.key === '3') {
+        setPhase('code-rain')
+        console.log('Jumped to: Code Rain')
+        return
+      }
+      if (e.key === '4') {
+        setPhase('reality-quote')
+        console.log('Jumped to: Reality Quote')
+        return
+      }
+      if (e.key === '5') {
+        setPhase('build-quote')
+        console.log('Jumped to: Build Quote')
+        return
+      }
+      
       // Glitch controls
       if (e.key.toLowerCase() === 'g') {
         setPreviewMode(!previewMode)
@@ -588,7 +626,7 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
     setRealityPhase('line1')
     
     const line1 = "REALITY IS NO LONGER"
-    const line2 = "JUST WHAT YOU"
+    const line2 = "WHAT YOU"
     const senseWords = ["SEE", "HEAR", "TOUCH"]
     
     // Type line 1
@@ -822,26 +860,8 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <div className="text-center text-white font-light tracking-wide max-w-4xl px-8 flex-1 flex flex-col justify-between">
             
-            {/* Top space - reserved for future content */}
-            <div className="flex-1"></div>
-            
-            {/* Middle section - Sense words */}
-            <div className="text-5xl md:text-7xl h-20 md:h-28 flex items-center justify-center">
-              {currentSenseWord && (
-                currentSenseWord === 'SEE' ? (
-                  <div className="mesh-glitch-corrupt">{currentSenseWord}</div>
-                ) : currentSenseWord === 'HEAR' ? (
-                  <div className="mesh-glitch-datamosh" data-text={currentSenseWord}>{currentSenseWord}</div>
-                ) : currentSenseWord === 'TOUCH' ? (
-                  <div className="mesh-glitch-hostile">{currentSenseWord}</div>
-                ) : (
-                  currentSenseWord
-                )
-              )}
-            </div>
-            
-            {/* Bottom section - Main reality text */}
-            <div className="flex-1 flex flex-col justify-end pb-16">
+            {/* Top section - Main reality text */}
+            <div className="flex-1 flex flex-col justify-center">
               {/* Line 1 - Fixed height */}
               <div className="text-4xl md:text-6xl mb-4 h-16 md:h-20 flex items-center justify-center">
                 {realityLine1}
@@ -858,6 +878,24 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
                 )}
               </div>
             </div>
+            
+            {/* Bottom section - Sense words */}
+            <div className="text-5xl md:text-7xl h-20 md:h-28 flex items-center justify-center">
+              {currentSenseWord && (
+                currentSenseWord === 'SEE' ? (
+                  <div className="mesh-glitch-corrupt">{currentSenseWord}</div>
+                ) : currentSenseWord === 'HEAR' ? (
+                  <div className="mesh-glitch-datamosh" data-text={currentSenseWord}>{currentSenseWord}</div>
+                ) : currentSenseWord === 'TOUCH' ? (
+                  <div className="mesh-glitch-hostile">{currentSenseWord}</div>
+                ) : (
+                  currentSenseWord
+                )
+              )}
+            </div>
+            
+            {/* Bottom space */}
+            <div className="flex-1"></div>
             
           </div>
         </div>
@@ -907,7 +945,7 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
         <div className="absolute top-8 right-8 z-[100]">
           <button 
             onClick={handleSkip}
-            className="text-white font-mono text-lg hover:text-gray-300 transition-colors"
+            className="text-gray-500 font-mono text-lg hover:text-gray-400 transition-colors"
           >
             [SKIP]
           </button>

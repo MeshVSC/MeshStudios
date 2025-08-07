@@ -651,12 +651,12 @@ h1.glitch::after {
 .cube-stopped {
   animation: none !important;
   transform: rotateX(-36deg) rotateY(45deg) rotateZ(0deg) !important;
-  transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: transform 1s ease-out !important;
 }
 
 .cube-stopped .cube__face {
   animation: none !important;
-  transition: box-shadow 2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: box-shadow 1s ease-out !important;
 }
 
 /* Final logo state - clean front-facing position */
