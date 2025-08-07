@@ -132,14 +132,17 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
   const [showFadeOut, setShowFadeOut] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+
   const rippleCanvasRef = useRef<HTMLCanvasElement>(null)
   const ripplesRef = useRef<any[]>([])
   const animationFrameRef = useRef<number | null>(null)
   const guiRef = useRef<dat.GUI | null>(null)
 
+
   const realityQuote = "REALITY IS NO LONGER JUST WHAT YOU SEE, HEAR, OR TOUCH"
   const buildQuote = "IT'S WHAT YOU BUILD"
   const clickPrompt = "CLICK TO PROCEED"
+
 
   // Helper function to render glitch text with new effects
   const renderGlitchText = (text: string, className: string = '') => {
@@ -276,6 +279,7 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
     }
   }, [phase])
 
+
   // Show click prompt after delay
   useEffect(() => {
     if (isComplete) return
@@ -309,6 +313,7 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
 
 
   // Track mouse position
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY })
@@ -492,6 +497,7 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
           line.text = line.fullText.slice(0, line.typingIndex)
           line.lastUpdate = now
         }
+
 
         // Check mouse safe zone - use current mouse position without restarting animation
         const currentMouseX = mousePos.x
@@ -711,7 +717,7 @@ export const IntroSequence = ({ onComplete }: IntroSequenceProps) => {
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`fixed inset-0 z-50 ${
         phase === 'build-quote' ? 'bg-white' : 'bg-black'
