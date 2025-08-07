@@ -19,7 +19,7 @@ export const HeroSection = () => {
   const [isTypingComplete, setIsTypingComplete] = useState(false)
   const [glitchTypingComplete, setGlitchTypingComplete] = useState(false)
   
-  const fullMeshText = "MESHSTUDIO"
+  const fullMeshText = "MESHSTUDIOS"
 
   // Glitch text animation - type first sentence only, then fade cycle
   useEffect(() => {
