@@ -1,0 +1,11 @@
+<svg width="200" height="150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="150" fill="#1a1a1a"/>
+  <g transform="translate(100,75)">
+    <circle r="40" stroke="#888" stroke-width="1" fill="none"/>
+    <circle r="25" stroke="#888" stroke-width="1" fill="none"/>
+    <circle r="10" stroke="#888" stroke-width="1" fill="none"/>
+    <line x1="-45" y1="0" x2="45" y2="0" stroke="#888" stroke-width="1"/>
+    <line x1="0" y1="-45" x2="0" y2="45" stroke="#888" stroke-width="1"/>
+  </g>
+  <text x="100" y="130" font-family="monospace" font-size="10" fill="white" text-anchor="middle">SCOPE TARGET</text>
+</svg>

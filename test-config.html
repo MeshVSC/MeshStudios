@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modular Intro - Test Configuration</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { 
+      font-family: 'SF Mono', Monaco, Consolas, 'Roboto Mono', monospace; 
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+    .controls { 
+      position: fixed; 
+      top: 20px; 
+      right: 20px; 
+      z-index: 1000; 
+      background: rgba(13, 17, 23, 0.9);
+      border: 1px solid #30363d;
+      padding: 20px;
+      border-radius: 8px;
+      min-width: 300px;
+    }
+    .control-group {
+      margin-bottom: 15px;
+    }
+    .control-label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+      color: #7d8590;
+      text-transform: uppercase;
+    }
+    button {
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      padding: 8px 16px;
+      border-radius: 6px;
+      margin: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    button:hover {
+      background: #30363d;
+      border-color: #8b949e;
+    }
+    button.active {
+      background: #238636;
+      border-color: #2ea043;
+    }
+    .status {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: monospace;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Test Controls -->
+  <div class="controls">
+    <h3 style="margin: 0 0 15px 0; font-size: 14px;">🔧 Modular Intro Test</h3>
+    
+    <div class="control-group">
+      <label class="control-label">Configuration</label>
+      <button id="enableOverlay" class="active">UI Overlay ON</button>
+      <button id="debugMode">Debug OFF</button>
+    </div>
+    
+    <div class="control-group">
+      <label class="control-label">Controls</label>
+      <button id="restart">Restart Sequence</button>
+      <button id="skipToPhase3">Skip to Phase 3</button>
+      <button id="pause">Pause</button>
+      <button id="resume">Resume</button>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Status</label>
+      <div id="status" class="status">
+        Waiting for initialization...
+      </div>
+    </div>
+  </div>
+
+  <!-- Include the original HTML structure -->
+  <iframe src="index.html" style="width: 100%; height: 100vh; border: none;" id="testFrame"></iframe>
+
+  <script>
+    let currentConfig = {
+      enableUIOverlay: true,
+      debug: false
+    };
+
+    function log(message) {
+      const status = document.getElementById('status');
+      const timestamp = new Date().toLocaleTimeString();
+      status.innerHTML += `[${timestamp}] ${message}\n`;
+      status.scrollTop = status.scrollHeight;
+    }
+
+    function updateButtonState(buttonId, isActive, activeText, inactiveText) {
+      const button = document.getElementById(buttonId);
+      button.classList.toggle('active', isActive);
+      button.textContent = isActive ? activeText : inactiveText;
+    }
+
+    // Configuration controls
+    document.getElementById('enableOverlay').addEventListener('click', function() {
+      currentConfig.enableUIOverlay = !currentConfig.enableUIOverlay;
+      updateButtonState('enableOverlay', currentConfig.enableUIOverlay, 'UI Overlay ON', 'UI Overlay OFF');
+      log(`UI Overlay ${currentConfig.enableUIOverlay ? 'enabled' : 'disabled'}`);
+    });
+
+    document.getElementById('debugMode').addEventListener('click', function() {
+      currentConfig.debug = !currentConfig.debug;
+      updateButtonState('debugMode', currentConfig.debug, 'Debug ON', 'Debug OFF');
+      log(`Debug mode ${currentConfig.debug ? 'enabled' : 'disabled'}`);
+    });
+
+    // Control buttons
+    document.getElementById('restart').addEventListener('click', function() {
+      log('Restarting sequence with current config...');
+      const frame = document.getElementById('testFrame');
+      
+      // Create a new URL with config parameters
+      const params = new URLSearchParams();
+      params.set('enableUIOverlay', currentConfig.enableUIOverlay);
+      params.set('debug', currentConfig.debug);
+      
+      frame.src = `index.html?${params.toString()}`;
+    });
+
+    document.getElementById('skipToPhase3').addEventListener('click', function() {
+      log('Attempting to skip to Phase 3...');
+      try {
+        const frame = document.getElementById('testFrame');
+        const intro = frame.contentWindow.__introSequence;
+        if (intro && intro.skipToPhase3) {
+          intro.skipToPhase3();
+          log('Successfully skipped to Phase 3');
+        } else {
+          log('ERROR: Intro sequence not available or method missing');
+        }
+      } catch (error) {
+        log(`ERROR: ${error.message}`);
+      }
+    });
+
+    document.getElementById('pause').addEventListener('click', function() {
+      log('Attempting to pause...');
+      try {
+        const frame = document.getElementById('testFrame');
+        const intro = frame.contentWindow.__introSequence;
+        if (intro && intro.pause) {
+          intro.pause();
+          log('Successfully paused');
+        } else {
+          log('ERROR: Intro sequence not available or method missing');
+        }
+      } catch (error) {
+        log(`ERROR: ${error.message}`);
+      }
+    });
+
+    document.getElementById('resume').addEventListener('click', function() {
+      log('Attempting to resume...');
+      try {
+        const frame = document.getElementById('testFrame');
+        const intro = frame.contentWindow.__introSequence;
+        if (intro && intro.resume) {
+          intro.resume();
+          log('Successfully resumed');
+        } else {
+          log('ERROR: Intro sequence not available or method missing');
+        }
+      } catch (error) {
+        log(`ERROR: ${error.message}`);
+      }
+    });
+
+    // Initialize
+    log('Test interface initialized');
+    log('Current config: ' + JSON.stringify(currentConfig, null, 2));
+  </script>
+</body>
+</html>

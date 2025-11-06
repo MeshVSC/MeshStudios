@@ -1,0 +1,137 @@
+/* Cube Animation Styles - Ported from React MeshStudios website */
+
+.scene {
+  perspective: 1000px;
+  perspective-origin: center center;
+}
+
+.cube {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+  animation: cubeRotate 2s linear infinite;
+}
+
+.cube-stopped {
+  animation-play-state: paused !important;
+}
+
+/* Individual cube positioning */
+.cube_count_1 {
+  left: 0;
+  top: 0;
+  animation-delay: 0s;
+}
+
+.cube_count_2 {
+  left: 100px;
+  top: 0;
+  animation-delay: -0.3s;
+}
+
+.cube_count_3 {
+  left: 0;
+  top: 100px;
+  animation-delay: -0.6s;
+}
+
+.cube_count_4 {
+  left: 100px;
+  top: 100px;
+  animation-delay: -0.9s;
+}
+
+.cube_count_5 {
+  left: 50px;
+  top: 50px;
+  animation-delay: -1.2s;
+}
+
+.cube_count_6 {
+  left: 50px;
+  top: 150px;
+  animation-delay: -1.5s;
+}
+
+/* Cube faces */
+.cube__face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.cube__face--front {
+  transform: rotateY(0deg) translateZ(50px);
+}
+
+.cube__face--back {
+  transform: rotateY(180deg) translateZ(50px);
+}
+
+.cube__face--right {
+  transform: rotateY(90deg) translateZ(50px);
+}
+
+.cube__face--left {
+  transform: rotateY(-90deg) translateZ(50px);
+}
+
+.cube__face--top {
+  transform: rotateX(90deg) translateZ(50px);
+}
+
+.cube__face--bottom {
+  transform: rotateX(-90deg) translateZ(50px);
+}
+
+/* Cube rotation animation */
+@keyframes cubeRotate {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scene {
+    width: 150px;
+    height: 200px;
+  }
+  
+  .cube {
+    width: 75px;
+    height: 75px;
+  }
+  
+  .cube__face {
+    width: 75px;
+    height: 75px;
+  }
+  
+  .cube__face--front,
+  .cube__face--back,
+  .cube__face--right,
+  .cube__face--left {
+    transform: rotateY(0deg) translateZ(37.5px);
+  }
+  
+  .cube__face--front { transform: rotateY(0deg) translateZ(37.5px); }
+  .cube__face--back { transform: rotateY(180deg) translateZ(37.5px); }
+  .cube__face--right { transform: rotateY(90deg) translateZ(37.5px); }
+  .cube__face--left { transform: rotateY(-90deg) translateZ(37.5px); }
+  .cube__face--top { transform: rotateX(90deg) translateZ(37.5px); }
+  .cube__face--bottom { transform: rotateX(-90deg) translateZ(37.5px); }
+  
+  .cube_count_2 { left: 75px; }
+  .cube_count_3 { top: 75px; }
+  .cube_count_4 { left: 75px; top: 75px; }
+  .cube_count_5 { left: 37.5px; top: 37.5px; }
+  .cube_count_6 { left: 37.5px; top: 112.5px; }
+}

@@ -1,0 +1,358 @@
+// Phase 3: Clean Reality Revelation Sequence
+
+import { stopPhase2Effects } from './phase2.js';
+
+/**
+ * Initialize Phase 3 - Reality Revelation Sequence
+ * @param {Object} config - Configuration object
+ * @param {boolean} config.debug - Debug mode
+ */
+export function initPhase3(config) {
+  const { debug = false } = config;
+
+  if (debug) {
+    console.log('[Phase3] Initializing reality revelation sequence');
+  }
+
+  // CTA Next button handler (if it exists)
+  const ctaNext = document.getElementById('ctaNext');
+  if (ctaNext) {
+    ctaNext.addEventListener('click', () => {
+      handlePhase3Transition(debug);
+    });
+  }
+
+  // Listen for custom event to start sequence directly
+  document.addEventListener('startPhase3Sequence', (event) => {
+    if (debug) {
+      console.log('[Phase3] Received startPhase3Sequence event');
+    }
+    handlePhase3Transition(event.detail?.debug || debug);
+  });
+}
+
+/**
+ * Handle the transition to Phase 3
+ * @param {boolean} debug - Debug mode
+ */
+function handlePhase3Transition(debug) {
+  if (debug) {
+    console.log('[Phase3] Starting transition to clean white background');
+  }
+
+  // FIRST: Clear all glitch effects and disable switchLetters
+  clearAllGlitchEffects();
+  
+  // Stop Phase 2 effects
+  const phase2 = document.querySelector('.phase2');
+  if (phase2) {
+    stopPhase2Effects(phase2);
+  }
+
+  // Show Phase 3 first
+  const phase3 = document.querySelector('.phase3');
+  if (phase3) {
+    phase3.style.display = 'block';
+    gsap.set(phase3, { opacity: 1 });
+  }
+
+  // Transition to white background
+  gsap.to('.phase2', {
+    opacity: 0, 
+    duration: 0.4, 
+    onComplete: () => {
+      const phase2El = document.querySelector('.phase2');
+      if (phase2El) {
+        phase2El.classList.add('pointer-events-none');
+      }
+    }
+  });
+  
+  gsap.to('.fade-black', { opacity: 0, duration: 0.6 });
+  gsap.to('body', { backgroundColor: 'white', duration: 0.8 });
+
+  // Start clean revelation sequence
+  startRevelationSequence(debug);
+}
+
+/**
+ * Clear all glitch effects and disable switch mechanisms
+ */
+function clearAllGlitchEffects() {
+  // Kill ALL GSAP animations and timelines completely
+  if (window.gsap) {
+    gsap.killTweensOf("*");
+    gsap.globalTimeline.kill();
+    if (window.__introSequence && window.__introSequence.timeline) {
+      window.__introSequence.timeline.kill();
+    }
+  }
+  
+  // Override ALL global glitch functions
+  window.switchLetters = function() {};
+  window.glitchText = function() {};
+  window.glitchWord = function() {};
+  window.glitchTypeA = function() {};
+  window.glitchTypeB = function() {};
+  window.glitchTypeC = function() {};
+  
+  // Disable all audio attempts
+  window.playGlitch = function() {};
+  
+  // Clear all intervals and timeouts (brute force)
+  for (let i = 1; i < 99999; i++) {
+    try { window.clearInterval(i); } catch(e) {}
+    try { window.clearTimeout(i); } catch(e) {}
+  }
+  
+  // Remove all glitch-related classes from all elements
+  document.querySelectorAll('*').forEach(el => {
+    el.classList.remove('switch-v1', 'scramble-v1');
+    // Reset data attributes that might store original text
+    if (el.dataset.orig) {
+      delete el.dataset.orig;
+    }
+  });
+  
+  // Hide all phases except phase 3
+  const stage = document.querySelector('.stage');
+  const phase2 = document.querySelector('.phase2');
+  if (stage) stage.style.display = 'none';
+  if (phase2) phase2.style.display = 'none';
+  
+  // Clear any existing sentence elements EXCEPT the one we want to use
+  document.querySelectorAll('.sentence').forEach(el => {
+    if (!el.closest('.phase3')) {
+      el.remove();
+    }
+  });
+  
+  // Clear body background and set to white
+  document.body.style.background = 'white';
+  document.body.style.backgroundColor = 'white';
+}
+
+/**
+ * Clean revelation sequence - just the typed sentence
+ * @param {boolean} debug - Debug mode
+ */
+function startRevelationSequence(debug) {
+  // Type sentence starting at 2 seconds
+  setTimeout(() => {
+    // Use the existing sentence element from HTML
+    const sentence = document.querySelector('.phase3 .sentence');
+    
+    if (!sentence) {
+      console.error('[Phase3] Sentence element not found');
+      return;
+    }
+    
+    // Clear any existing content and classes
+    sentence.textContent = '';
+    sentence.className = 'sentence'; // Keep only the sentence class
+    
+    // Apply bulletproof styles directly
+    sentence.style.position = 'absolute';
+    sentence.style.left = '50%';
+    sentence.style.top = '50%';
+    sentence.style.transform = 'translate(-50%, -50%)';
+    sentence.style.fontSize = '48px';
+    sentence.style.fontWeight = '300';
+    sentence.style.color = 'black';
+    sentence.style.fontFamily = 'monospace';
+    sentence.style.opacity = '1';
+    sentence.style.zIndex = '1000';
+    sentence.style.pointerEvents = 'none';
+    sentence.style.whiteSpace = 'pre-line';
+    sentence.style.textAlign = 'center';
+    sentence.style.lineHeight = '1.2';
+    sentence.style.background = 'transparent';
+    sentence.style.padding = '0';
+    sentence.style.border = 'none';
+    sentence.style.outline = 'none';
+    
+    // Clean typing function - no external dependencies
+    const fullText = 'Reality is\nno longer what you\nsee...';
+    let currentIndex = 0;
+    
+    function cleanType() {
+      if (currentIndex < fullText.length) {
+        const expectedText = fullText.substring(0, currentIndex + 1);
+        sentence.textContent = expectedText;
+        
+        // Debug: Check if text was corrupted immediately after setting
+        const actualText = sentence.textContent;
+        console.log(`[DEBUG] Expected: "${expectedText}" | Actual: "${actualText}" | Match: ${expectedText === actualText}`);
+        
+        currentIndex++;
+        setTimeout(cleanType, 80);
+      } else {
+        console.log('[Phase3] Clean sentence typed successfully');
+      }
+    }
+    
+    cleanType();
+  }, 2000);
+}
+
+/**
+ * Clean typewriter effect without any interference
+ * @param {HTMLElement} element - Element to type into
+ * @param {string} text - Text to type
+ * @param {number} duration - Duration in seconds
+ * @param {Function} callback - Callback when complete
+ */
+function typeTextClean(element, text, speed, callback) {
+  if (!element) return;
+  element.textContent = '';
+  let i = 0;
+  
+  function typeNextChar() {
+    if (i < text.length) {
+      element.textContent += text[i];
+      i++;
+      setTimeout(typeNextChar, speed);
+    } else {
+      if (callback) callback();
+    }
+  }
+  
+  typeNextChar();
+}
+
+/**
+ * Type text character by character
+ * @param {HTMLElement} element - Element to type into
+ * @param {string} text - Text to type
+ * @param {number} duration - Duration in seconds
+ * @param {Function} callback - Callback when complete
+ */
+function typeText(element, text, duration, callback) {
+  element.textContent = '';
+  const chars = text.split('');
+  const interval = (duration * 1000) / chars.length;
+  let i = 0;
+  const timer = setInterval(() => {
+    element.textContent += chars[i];
+    i++;
+    if (i >= chars.length) {
+      clearInterval(timer);
+      if (callback) callback();
+    }
+  }, interval);
+}
+
+/**
+ * Glitch text animation
+ * @param {HTMLElement} element - Element to glitch
+ * @param {number} duration - Duration in milliseconds
+ * @param {Function} callback - Callback when complete
+ */
+function glitchText(element, duration, callback) {
+  const original = element.textContent;
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const startTime = Date.now();
+
+  const interval = setInterval(() => {
+    element.textContent = original.split('').map((char) => {
+      if (char === ' ') return ' ';
+      return letters[Math.floor(Math.random() * 26)];
+    }).join('');
+
+    if (Date.now() - startTime >= duration) {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+  }, 50);
+}
+
+/**
+ * Advanced glitch word animation with multiple types
+ * @param {HTMLElement} element - Element to glitch
+ * @param {string} originalText - Original text to restore
+ * @param {Function} callback - Callback when complete
+ */
+function glitchWord(element, originalText, callback) {
+  const glitchTypes = [
+    () => glitchTypeA(element, originalText, callback),
+    () => glitchTypeB(element, originalText, callback),
+    () => glitchTypeC(element, originalText, callback)
+  ];
+  const randomType = glitchTypes[Math.floor(Math.random() * glitchTypes.length)];
+  randomType();
+}
+
+/**
+ * Glitch Type A: Rapid character cycling
+ * @param {HTMLElement} element - Element to glitch
+ * @param {string} original - Original text
+ * @param {Function} callback - Callback when complete
+ */
+function glitchTypeA(element, original, callback) {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
+  let cycles = 0;
+  const interval = setInterval(() => {
+    if (cycles < 15) {
+      element.textContent = original.split('').map((char, i) => {
+        if (char === '.' || char === ' ') return char;
+        return letters[Math.floor(Math.random() * letters.length)];
+      }).join('');
+      cycles++;
+    } else {
+      clearInterval(interval);
+      element.textContent = original;
+      if (callback) callback();
+    }
+  }, 80);
+}
+
+/**
+ * Glitch Type B: Letter-by-letter reveal with scramble
+ * @param {HTMLElement} element - Element to glitch
+ * @param {string} original - Original text
+ * @param {Function} callback - Callback when complete
+ */
+function glitchTypeB(element, original, callback) {
+  const letters = 'XQWERZTYUIOPLKJHGFDSAMNBVC';
+  let revealed = 0;
+  const interval = setInterval(() => {
+    element.textContent = original.split('').map((char, i) => {
+      if (char === '.' || char === ' ') return char;
+      if (i < revealed) return original[i];
+      return letters[Math.floor(Math.random() * letters.length)];
+    }).join('');
+
+    if (revealed >= original.replace(/[.\s]/g, '').length) {
+      clearInterval(interval);
+      element.textContent = original;
+      if (callback) callback();
+    } else {
+      if (Math.random() < 0.3) revealed++;
+    }
+  }, 60);
+}
+
+/**
+ * Glitch Type C: Stutter effect with duplicates
+ * @param {HTMLElement} element - Element to glitch
+ * @param {string} original - Original text
+ * @param {Function} callback - Callback when complete
+ */
+function glitchTypeC(element, original, callback) {
+  const stutterChars = '||||////\\\\\\\\\\\\\\\\____----';
+  let phase = 0;
+  const interval = setInterval(() => {
+    if (phase < 20) {
+      if (phase % 4 === 0) {
+        element.textContent = original;
+      } else {
+        element.textContent = original + stutterChars[Math.floor(Math.random() * stutterChars.length)].repeat(Math.floor(Math.random() * 3) + 1);
+      }
+      phase++;
+    } else {
+      clearInterval(interval);
+      element.textContent = original;
+      if (callback) callback();
+    }
+  }, 70);
+}

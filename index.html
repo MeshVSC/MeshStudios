@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IntroMaster Experiment - Modular</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="glitchEffects.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div id="root" class="relative min-h-screen overflow-hidden bg-white text-black">
+    <!-- Skip button -->
+    <button id="skipBtn" class="fixed top-4 right-4 z-[200] text-black text-sm">SKIP INTRO</button>
+
+    <!-- Audio toggle button -->
+    <button
+      id="audioToggleBtn"
+      class="fixed top-4 left-4 z-[200] text-black text-xl"
+      aria-pressed="true"
+      aria-label="Mute audio"
+      title="Mute audio"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 9v6h3.5L13 20V4L7.5 9H4z"></path>
+        <path d="M16.5 8.5c1.5 1.5 1.5 5.5 0 7"></path>
+        <path d="M19.5 6.5c3 3 3 9 0 12"></path>
+      </svg>
+    </button>
+
+    <!-- scanlines + noise overlays -->
+    <div class="scan pointer-events-none absolute inset-0 mix-blend-multiply"></div>
+    <div class="noise pointer-events-none absolute inset-0"></div>
+    <div class="vortex pointer-events-none absolute inset-0"></div>
+
+    <!-- fullscreen fade to black overlay -->
+    <div class="fade-black pointer-events-none absolute inset-0 bg-black opacity-0"></div>
+    <div class="fade-white pointer-events-none absolute inset-0 bg-white opacity-0"></div>
+
+    <!-- Phase 2 overlay: code flood + CTA -->
+    <div class="phase2 pointer-events-none absolute inset-0 opacity-0">
+      <canvas id="canvas" class="absolute inset-0"></canvas>
+      <div class="ripple-bg absolute inset-0"></div>
+      <div class="code-flood absolute inset-0"></div>
+      <div class="cursor-wake pointer-events-none absolute w-[260px] h-[260px] rounded-full opacity-0"></div>
+
+      <!-- Reality Recovery Interface -->
+      <div class="ui-overlay absolute inset-0 pointer-events-none z-[90] opacity-0">
+        <!-- Single Unified Recovery Panel -->
+        <div class="reality-recovery-panel absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] border border-white/40 bg-black/20 backdrop-blur-sm opacity-0">
+          <div class="panel-header flex justify-between items-center p-3 border-b border-white/20 text-sm font-mono text-white/70">
+            <span>REALITY RECOVERY PROTOCOL v2.4.1</span>
+            <div class="flex gap-2 items-center">
+              <div class="w-2 h-2 bg-white/60 recovery-pulse"></div>
+              <span class="text-xs">STATUS</span>
+            </div>
+          </div>
+
+          <div class="panel-content p-4 text-sm font-mono text-white/80 space-y-4">
+            <!-- Phase 1: Damage Assessment -->
+            <div class="damage-assessment hidden">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-white/60">[</span>
+                <span class="scanning-text text-white"></span>
+                <span class="text-white/60">]</span>
+              </div>
+              <div class="integrity-bar relative opacity-0">
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="integrity-label text-white/70"></span>
+                  <span class="integrity-percentage text-white">0%</span>
+                </div>
+                <div class="w-full h-2 bg-white/10 border border-white/20">
+                  <div class="integrity-fill h-full bg-white/60 transition-all duration-300" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 2: Core Function Restoration -->
+            <div class="core-restoration hidden">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-white/60">[</span>
+                <span class="restore-header text-white"></span>
+                <span class="text-white/60">]</span>
+              </div>
+              <div class="space-y-1 text-xs">
+                <div class="core-function flex justify-between opacity-0">
+                  <span class="spatial-label text-white/70"></span>
+                  <span class="spatial-status text-white/50"></span>
+                </div>
+                <div class="core-function flex justify-between opacity-0">
+                  <span class="temporal-label text-white/70"></span>
+                  <span class="temporal-status text-white/50"></span>
+                </div>
+                <div class="core-function flex justify-between opacity-0">
+                  <span class="consciousness-label text-white/70"></span>
+                  <span class="consciousness-status text-white/50"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 3: Perception Layer Rebuild -->
+            <div class="perception-rebuild hidden">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-white/60">[</span>
+                <span class="rebuild-header text-white"></span>
+                <span class="text-white/60">]</span>
+              </div>
+              <div class="perception-progress relative opacity-0">
+                <div class="w-full h-3 bg-white/10 border border-white/20">
+                  <div class="perception-fill h-full bg-white/60" style="width: 0%"></div>
+                </div>
+                <div class="perception-percentage text-xs text-white/70 mt-1">0%</div>
+              </div>
+            </div>
+
+            <!-- Phase 4: Ready State -->
+            <div class="ready-state hidden">
+              <div class="text-center">
+                <div class="text-white/60 mb-1">></div>
+                <div class="text-white ready-text"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 404 panel -->
+    <main class="stage relative z-10 grid min-h-screen place-items-center">
+      <section class="panel mx-auto max-w-6xl px-8 py-28 grid grid-cols-12 gap-0">
+        <div class="col-span-6 pr-2 flex justify-end items-start">
+          <h1 class="font-extrabold text-[155px] leading-none tracking-tight select-none -mt-6">
+            <span class="num404">404</span>
+          </h1>
+        </div>
+        <div class="col-span-6 border-l pl-3 flex flex-col justify-start">
+          <div class="title-box">
+            <h2 class="text-4xl font-semibold tracking-widest leading-[1.05] no-switch">
+              <div class="switch-v1 scramble-v1">REALITY</div>
+              <div class="switch-v1 scramble-v1">NOT</div>
+              <div class="switch-v1 scramble-v1">FOUND</div>
+            </h2>
+          </div>
+          <div class="text-box">
+            <p class="mt-4 max-w-[46ch] text-lg text-neutral-700">
+              The reality you are looking for might have been removed, had its name changed, or is temporarily
+              unavailable.
+            </p>
+          </div>
+          <div class="three-words" style="opacity: 0;"></div>
+          <div class="conclusion" style="opacity: 0;"></div>
+          <div class="logo" style="opacity: 0;"></div>
+          <div class="hero" style="opacity: 0;"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- CRT shutdown overlay -->
+    <div id="crt-container" class="crt-container">
+      <canvas id="crt-noise" class="picture"></canvas>
+      <div class="picture"></div>
+    </div>
+    <!-- Phase 3: Clean Reality Revelation -->
+    <div class="phase3"
+      style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 8000; background: white; pointer-events: none;">
+      <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+        <h1 id="phase3-text"></h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Elements -->
+  <audio id="sfx-glitch-1" preload="auto" src="public/sfx/glitch1.mp3"></audio>
+  <audio id="sfx-glitch-2" preload="auto" src="public/sfx/glitch1.mp3"></audio>
+  <audio id="sfx-glitch-3" preload="auto" src="public/sfx/glitch1.mp3"></audio>
+
+  <!-- Load the modular JavaScript -->
+  <script type="module" src="src/main.js?v=8"></script>
+
+  <style>
+    /* === CRT shutdown effect === */
+    .crt-container {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      pointer-events: none;
+      display: none;
+    }
+    .off .crt-container { display: block; }
+    /* Force true black during CRT shutdown */
+    .off { background: black !important; }
+    .off .crt-container { background: black; }
+    .crt-container .picture {
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      transform: scale(1,1);
+      background: transparent linear-gradient(to bottom,#85908c 0%,#323431 100%) repeat scroll 0 0;
+    }
+    .off .crt-container .picture {
+      animation: off 400ms cubic-bezier(0.230,1.000,0.320,1.000) forwards;
+      filter: brightness(1);
+    }
+    @keyframes off {
+      0%   { transform: scale(1,1); filter: brightness(1); }
+      40%  { transform: scale(1,0.005); filter: brightness(100); }
+      70%  { transform: scale(1,0.005); }
+      90%  { transform: scale(0.005,0.005); }
+      100% { transform: scale(0,0); }
+    }
+    html,
+    body,
+    #canvas {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    #canvas {
+      pointer-events: none;
+      z-index: 68;
+    }
+
+    .scan {
+      background: repeating-linear-gradient(to bottom,
+          rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04) 1px,
+          transparent 1px, transparent 3px);
+      opacity: 0;
+    }
+
+    .noise {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.3"/></svg>');
+      background-size: 240px 240px;
+      mix-blend-mode: multiply;
+      opacity: 0;
+    }
+
+    .fade-black {
+      opacity: 0;
+    }
+
+    .fade-white {
+      opacity: 0;
+    }
+
+    .phase2 {
+      z-index: 60;
+    }
+
+    #ctaNext {
+      transition: transform 0.2s ease;
+      border: none;
+    }
+
+    #ctaNext:hover {
+      transform: translate(-50%, -50%) scale(1.03);
+    }
+
+    .code-flood {
+      position: absolute;
+      inset: 0;
+      z-index: 60;
+    }
+
+    .flood-line {
+      position: absolute;
+      left: 6vw;
+      color: white;
+      font-family: SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      opacity: 0.85;
+      filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.35));
+    }
+
+    .cursor-wake {
+      background: radial-gradient(closest-side, rgba(210, 210, 210, 0.42), rgba(210, 210, 210, 0.0) 70%);
+      filter: blur(20px);
+      transform: translate(-50%, -50%);
+      z-index: 61;
+      will-change: left, top, opacity;
+      pointer-events: none;
+      opacity: 0 !important;
+      /* hide the constant glow */
+    }
+
+    .ripple {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 0 26px rgba(255, 255, 255, 0.18), inset 0 0 12px rgba(255, 255, 255, 0.12);
+      transform: translate(-50%, -50%) scale(0.2);
+      opacity: 0.5;
+      pointer-events: none;
+      will-change: transform, opacity;
+      z-index: 62;
+    }
+
+    .wake-dot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+      filter: blur(18px);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 62;
+      opacity: 0;
+      /* will be driven by JS */
+      will-change: left, top, opacity, transform;
+    }
+
+    /* Inserted ripple-bg style */
+    .ripple-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 59;
+      /* under .code-flood (60) */
+      background-color: #000;
+      /* pure black background */
+    }
+
+
+    @keyframes ctaBlink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
+    }
+
+    #ctaNext {
+  /* no animation by default */
+  display: block; /* or any actual style */
+}
+
+    .cta-blink {
+      animation: ctaBlink 1.2s ease-in-out infinite;
+    }
+
+    /* Fullscreen responsive embed */
+    html,
+    body {
+      height: 100%;
+    }
+
+    .embed-wrap {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      /* restore fixed height */
+      margin: 0;
+      z-index: 1;
+      border: 0;
+      /* visual cleanup */
+    }
+
+    .phase3 #phase3-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: inline-block;
+      width: auto;
+      max-width: 90vw;
+      padding: 0;
+      height: auto;
+      font-family: SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 20px;
+      color: #000;
+      font-weight: normal;
+      background: transparent;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 1.2;
+      pointer-events: none;
+      z-index: 9000;
+    }
+
+    /* UI Overlay Panel Styling */
+    .ui-panel {
+      position: relative;
+      backdrop-filter: blur(8px);
+      border-radius: 2px;
+    }
+
+    .ui-panel::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+      border-radius: 2px;
+      z-index: -1;
+    }
+
+    /* Corner brackets for authentic look */
+    .ui-panel::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        linear-gradient(to right, white 8px, transparent 8px),
+        linear-gradient(to bottom, white 8px, transparent 8px),
+        linear-gradient(to left, white 8px, transparent 8px),
+        linear-gradient(to top, white 8px, transparent 8px);
+      background-size:
+        15px 1px,
+        1px 15px,
+        15px 1px,
+        1px 15px;
+      background-position:
+        top left,
+        top left,
+        bottom right,
+        bottom right;
+      background-repeat: no-repeat;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .panel-header {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .panel-content {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      letter-spacing: 0.02em;
+    }
+
+    .progress-bar {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+      transition: width 0.3s ease;
+    }
+
+    .procedural-canvas,
+    .monitor-canvas {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 1px;
+    }
+
+    .ui-overlay {
+      transition: opacity 0.3s ease;
+    }
+
+    .recovery-pulse {
+      animation: recoveryPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes recoveryPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .energy-particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: radial-gradient(circle, #ff6b35, transparent);
+      border-radius: 50%;
+      animation: energyFlow 3s linear infinite;
+    }
+
+    .energy-particle:nth-child(1) {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .energy-particle:nth-child(2) {
+      top: 60%;
+      left: 30%;
+      animation-delay: 1s;
+    }
+
+    .energy-particle:nth-child(3) {
+      top: 40%;
+      left: 70%;
+      animation-delay: 2s;
+    }
+
+    @keyframes energyFlow {
+      0% { transform: translateX(0) scale(0.5); opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateX(200px) scale(1.5); opacity: 0; }
+    }
+  </style>
+
+  <audio id="bgMusic" src="https://dziukiewicz.com/_app/immutable/assets/background-music.brHr6Lnp.mp3" loop></audio>
+  <script type="module" src="src/main.js?v=8"></script>
+
+  <!-- SIMPLE PHASE 3 BYPASS -->
+  <script>
+    // Override the skip button
+    document.addEventListener('DOMContentLoaded', function() {
+      const skipBtn = document.getElementById('skipBtn');
+      if (skipBtn) {
+        skipBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Kill everything
+          try {
+            if (window.gsap) gsap.killTweensOf("*");
+          } catch(ex) {}
+
+          // Kill everything first
+          if (window.gsap) {
+            gsap.killTweensOf("*");
+            if (gsap.globalTimeline) gsap.globalTimeline.clear();
+          }
+
+          // Override any conflicting functions
+          window.switchLetters = function() {};
+
+          // Hide other phases
+          const stage = document.querySelector('.stage');
+          const phase2 = document.querySelector('.phase2');
+          if (stage) stage.style.display = 'none';
+          if (phase2) phase2.style.display = 'none';
+
+          // Show phase 3
+          const phase3 = document.querySelector('.phase3');
+          if (phase3) {
+            phase3.style.display = 'block';
+            phase3.style.opacity = '1';
+          }
+
+          // Set white background
+          document.body.style.background = 'white';
+          document.body.style.backgroundColor = 'white';
+
+          // Change skip button back to black for Phase 3
+          const skipBtn = document.getElementById('skipBtn');
+          if (skipBtn) skipBtn.classList.replace('text-white', 'text-black');
+
+          // Trigger ONLY the phase3-clean.js system
+          setTimeout(() => {
+            // Remove any old event listeners by cloning the document
+            document.dispatchEvent(new CustomEvent('startPhase3Sequence', {
+              detail: { debug: true }
+            }));
+          }, 1000);
+        });
+      }
+    });
+  </script>
+ </body>
+</html>
