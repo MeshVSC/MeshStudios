@@ -6,6 +6,7 @@ import { initPhase2 } from './phases/phase2.js';
 import { initPhase3 } from './phases/phase3-clean.js';
 import { initUIOverlay } from './phases/ui-overlay.js';
 import { playGlitch, stopAllAudio } from './utils/audio.js';
+import { WebsiteMain } from './components/WebsiteMain.js';
 
 class IntroSequence {
   constructor() {
@@ -322,7 +323,35 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   
   introSequence.init(config);
-  
+
   // Expose to global scope for debugging
   window.__introSequence = introSequence;
+
+  // Listen for showWebsiteMain event from Phase 3
+  document.addEventListener('showWebsiteMain', () => {
+    if (config.debug) {
+      console.log('[Main] Received showWebsiteMain event');
+    }
+
+    const container = document.getElementById('website-main-container');
+    if (!container) {
+      console.error('[Main] website-main-container not found');
+      return;
+    }
+
+    // Initialize WebsiteMain
+    const websiteMain = new WebsiteMain(container);
+    websiteMain.init();
+
+    // Show container with fade in
+    container.style.display = 'block';
+    gsap.fromTo(container,
+      { opacity: 0 },
+      { opacity: 1, duration: 1.2, ease: 'power2.out' }
+    );
+
+    if (config.debug) {
+      console.log('[Main] WebsiteMain initialized and shown');
+    }
+  });
 });

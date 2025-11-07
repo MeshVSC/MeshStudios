@@ -7,6 +7,7 @@
   <title>IntroMaster Experiment - Modular</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="glitchEffects.css">
+  <link rel="stylesheet" href="src/styles/cubeStyles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -518,6 +519,9 @@
       100% { transform: translateX(200px) scale(1.5); opacity: 0; }
     }
   </style>
+
+  <!-- WebsiteMain Container -->
+  <div id="website-main-container" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; overflow-y: auto; background: black;"></div>
 
   <audio id="bgMusic" src="https://dziukiewicz.com/_app/immutable/assets/background-music.brHr6Lnp.mp3" loop></audio>
   <script type="module" src="src/main.js?v=8"></script>

@@ -178,7 +178,16 @@ function startPhase3Clean(debug) {
   const stage = document.querySelector('.stage');
   const phase2 = document.querySelector('.phase2');
   if (stage) stage.style.display = 'none';
-  if (phase2) phase2.style.display = 'none';
+  if (phase2) {
+    phase2.style.display = 'none';
+    phase2.style.opacity = '0';
+  }
+
+  // Explicitly hide Phase 2's black background elements
+  const rippleBg = document.querySelector('.ripple-bg');
+  if (rippleBg) rippleBg.style.display = 'none';
+  const codeFlood = document.querySelector('.code-flood');
+  if (codeFlood) codeFlood.style.display = 'none';
 
   resetPhase3TextState();
 
@@ -235,10 +244,11 @@ async function runPhase3Cycles(debug) {
   clearSentenceGlitch(sentence);
   setNoiseLevel(0);
   if (debug) {
-    console.log('[Phase3] Sequence complete – leaving final frame as-is');
+    console.log('[Phase3] Sequence complete – transitioning to main website');
   }
-  // Split-docs handoff: redirect to the site shell
-  try { window.location.href = 'home.html'; } catch (_) {}
+
+  // Transition to main website
+  await transitionToWebsiteMain(debug);
 }
 
 async function playPhase3Cycle(sentence, cycle, debug) {
@@ -607,6 +617,51 @@ function animateNoise(ctx) {
 function stopNoise() {
   if (crtNoiseFrame) cancelAnimationFrame(crtNoiseFrame);
   crtNoiseFrame = null;
+}
+
+/**
+ * Transition from Phase 3 to the main website
+ */
+async function transitionToWebsiteMain(debug) {
+  if (debug) {
+    console.log('[Phase3] Starting transition to WebsiteMain');
+  }
+
+  // Fade out Phase 3
+  const phase3 = document.querySelector('.phase3');
+  const sentence = document.getElementById('phase3-text');
+
+  if (sentence) {
+    gsap.to(sentence, {
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.inOut'
+    });
+  }
+
+  await delay(800);
+
+  // Hide Phase 3
+  if (phase3) {
+    phase3.style.display = 'none';
+  }
+
+  // Show WebsiteMain
+  const websiteContainer = document.querySelector('.website-main');
+  if (websiteContainer) {
+    websiteContainer.style.display = 'block';
+    gsap.fromTo(websiteContainer,
+      { opacity: 0 },
+      { opacity: 1, duration: 1.2, ease: 'power2.out' }
+    );
+  } else {
+    // If WebsiteMain container doesn't exist, we need to trigger it from main.js
+    document.dispatchEvent(new CustomEvent('showWebsiteMain'));
+  }
+
+  if (debug) {
+    console.log('[Phase3] Transition to WebsiteMain complete');
+  }
 }
 
 /**
