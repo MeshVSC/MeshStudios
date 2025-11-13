@@ -11,16 +11,16 @@ export class WebsiteMain {
     this.isTypingComplete = false;
     this.glitchTypingComplete = false;
     this.glitchDisplayText = '';
-    
+
     this.glitchTexts = [
-      "// INITIALIZING MESH PROTOCOLS...",
-      "// SCANNING 3D GEOMETRIES...", 
-      "// COMPILING VERTEX SHADERS...",
-      "// OPTIMIZING RENDER PIPELINES...",
-      "// CALCULATING LIGHT MATRICES...",
-      "// MESHING REALITY STRUCTURES..."
+      "// WEAVING REALITY FABRIC...",
+      "// CONSTRUCTING VISUAL LAYERS...",
+      "// MERGING SONIC SEQUENCES...",
+      "// COMPILING CODE STRUCTURES...",
+      "// MESHING DIMENSIONS...",
+      "// REALITY ARCHITECTURE COMPLETE..."
     ];
-    
+
     this.fullMeshText = "MESHSTUDIOS";
   }
 
@@ -33,7 +33,7 @@ export class WebsiteMain {
     this.container.innerHTML = `
       <!-- Main Website Content -->
       <div class="website-main w-full min-h-screen bg-black">
-        
+
         <!-- Hero Section -->
         <section class="hero-section relative w-full h-screen flex items-center justify-center bg-black">
           <!-- Clean minimal background -->
@@ -41,8 +41,8 @@ export class WebsiteMain {
 
           <!-- Main content container with proper centering -->
           <div class="relative z-20 flex flex-col items-center justify-center">
-            <!-- Cube Logo - Positioned above and centered -->
-            <div class="cube-container transition-opacity duration-1000 mb-16 opacity-0">
+            <!-- CSS 3D Cube Logo - 6 cubes -->
+            <div class="cube-container transition-opacity duration-1000 mb-16" style="opacity: 0;">
               <div class="scene relative w-[200px] h-[250px]">
                 <div class="cube cube_count_1">
                   <div class="cube__face cube__face--front"></div>
@@ -94,11 +94,11 @@ export class WebsiteMain {
                 </div>
               </div>
             </div>
-            
+
             <!-- MESHSTUDIO Text - Positioned below the cube -->
             <h1 class="mesh-title text-6xl md:text-8xl font-light text-white tracking-wide mb-8 text-center">
             </h1>
-            
+
             <!-- Glitch Code Text Effect -->
             <div class="h-8 flex items-center justify-center">
               <p class="glitch-text text-lg text-white/60 font-mono">
@@ -125,7 +125,7 @@ export class WebsiteMain {
               </h2>
               <div class="w-24 h-0.5 bg-white mx-auto mb-8"></div>
               <p class="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
-                We specialize in creating immersive experiences that blur the lines between 
+                We specialize in creating immersive experiences that blur the lines between
                 digital and physical reality through cutting-edge technology and artistic vision.
               </p>
             </div>
@@ -147,7 +147,7 @@ export class WebsiteMain {
                   Visual Excellence
                 </h4>
                 <p class="text-white/60 leading-relaxed text-sm">
-                  Advanced 3D rendering, motion graphics, and immersive visual experiences 
+                  Advanced 3D rendering, motion graphics, and immersive visual experiences
                   that captivate and engage your audience through cutting-edge technology.
                 </p>
               </div>
@@ -161,7 +161,7 @@ export class WebsiteMain {
                   Immersive Audio
                 </h4>
                 <p class="text-white/60 leading-relaxed text-sm">
-                  Spatial audio design, interactive soundscapes, and dynamic audio systems 
+                  Spatial audio design, interactive soundscapes, and dynamic audio systems
                   that create emotional depth and enhance user engagement.
                 </p>
               </div>
@@ -175,7 +175,7 @@ export class WebsiteMain {
                   Technical Innovation
                 </h4>
                 <p class="text-white/60 leading-relaxed text-sm">
-                  Custom development solutions, interactive applications, and robust 
+                  Custom development solutions, interactive applications, and robust
                   technical infrastructure that brings creative visions to life.
                 </p>
               </div>
@@ -192,11 +192,11 @@ export class WebsiteMain {
                 Ready to get in touch for<br />
                 your new project?
               </h2>
-              
+
               <div class="w-24 h-0.5 bg-white mx-auto mb-12"></div>
-              
+
               <p class="text-xl text-white/70 mb-16 leading-relaxed max-w-2xl mx-auto">
-                Let's create something extraordinary together. Whether it's immersive visuals, 
+                Let's create something extraordinary together. Whether it's immersive visuals,
                 spatial audio, or cutting-edge code - we're ready to bring your vision to life.
               </p>
 
@@ -215,13 +215,13 @@ export class WebsiteMain {
                   <h4 class="text-white font-mono mb-2 tracking-wide">EMAIL</h4>
                   <p class="text-white/60 text-sm">hello@meshstudios.com</p>
                 </div>
-                
+
                 <div class="group">
                   <div class="text-2xl mb-4 text-white/30 group-hover:text-white/60 transition-colors duration-300">💬</div>
                   <h4 class="text-white font-mono mb-2 tracking-wide">DISCORD</h4>
                   <p class="text-white/60 text-sm">MeshStudios#0001</p>
                 </div>
-                
+
                 <div class="group">
                   <div class="text-2xl mb-4 text-white/30 group-hover:text-white/60 transition-colors duration-300">📱</div>
                   <h4 class="text-white font-mono mb-2 tracking-wide">SOCIAL</h4>
@@ -242,7 +242,7 @@ export class WebsiteMain {
                   MESH STUDIOS
                 </h3>
                 <p class="text-white/60 leading-relaxed mb-6 max-w-md">
-                  Crafting reality through art and technology. We create immersive experiences 
+                  Crafting reality through art and technology. We create immersive experiences
                   that blur the lines between digital and physical worlds.
                 </p>
                 <div class="flex space-x-4">
@@ -310,9 +310,9 @@ export class WebsiteMain {
     const firstSentence = this.glitchTexts[0];
     let charIndex = 0;
     this.glitchDisplayText = '';
-    
+
     const glitchElement = this.container.querySelector('.glitch-text');
-    
+
     const typeInterval = setInterval(() => {
       if (charIndex < firstSentence.length) {
         this.glitchDisplayText = firstSentence.slice(0, charIndex + 1);
@@ -320,18 +320,18 @@ export class WebsiteMain {
         charIndex++;
       } else {
         clearInterval(typeInterval);
-        
-        // Wait 2 seconds, then show sentences 2 and 3 with fade, then logo
+
+        // Wait 0.5 seconds, then show sentences 2 and 3 with fade, then logo
         setTimeout(() => {
           let sentenceIndex = 1;
-          
+
           const showNextSentence = () => {
             if (sentenceIndex < 3) {
               glitchElement.textContent = '';
               setTimeout(() => {
                 glitchElement.textContent = this.glitchTexts[sentenceIndex];
                 sentenceIndex++;
-                setTimeout(showNextSentence, 3000);
+                setTimeout(showNextSentence, 1000);
               }, 100);
             } else {
               // After 3 sentences, show logo and start fade cycling
@@ -341,20 +341,20 @@ export class WebsiteMain {
               this.startFadeCycling();
             }
           };
-          
+
           showNextSentence();
-        }, 2000);
+        }, 500);
       }
-    }, 50); // typing speed
+    }, 30); // typing speed
   }
 
   startFadeCycling() {
     const glitchElement = this.container.querySelector('.glitch-text');
-    
+
     // Start cycling through remaining glitch texts with fade effect
     setInterval(() => {
       glitchElement.textContent = '';
-      
+
       setTimeout(() => {
         const nextIndex = (this.currentGlitchText + 1) % this.glitchTexts.length;
         this.currentGlitchText = nextIndex;
@@ -366,25 +366,25 @@ export class WebsiteMain {
   showCubeAndStartTyping() {
     const cubeContainer = this.container.querySelector('.cube-container');
     cubeContainer.style.opacity = '1';
-    
+
     // Stop cube after 2 full rotations, then start typing
     setTimeout(() => {
       // Stop logo spinning first
       const cubes = this.container.querySelectorAll('.cube');
       cubes.forEach(cube => cube.classList.add('cube-stopped'));
-      
+
       // Start typing MESHSTUDIO after cube stops
       setTimeout(() => {
         this.startMeshTyping();
       }, 300); // Small delay after cube stops
-      
+
     }, 4000); // 4 seconds for 2 full rotations (2s per rotation)
   }
 
   startMeshTyping() {
     const meshElement = this.container.querySelector('.mesh-title');
     let index = 0;
-    
+
     const typingInterval = setInterval(() => {
       if (index < this.fullMeshText.length) {
         this.meshText = this.fullMeshText.slice(0, index + 1);

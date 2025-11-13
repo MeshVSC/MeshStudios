@@ -189,6 +189,10 @@ function startPhase3Clean(debug) {
   const codeFlood = document.querySelector('.code-flood');
   if (codeFlood) codeFlood.style.display = 'none';
 
+  // Clear the black fade overlay from Phase 1
+  const fadeBlack = document.querySelector('.fade-black');
+  if (fadeBlack) fadeBlack.style.opacity = '0';
+
   resetPhase3TextState();
 
   // Show Phase 3

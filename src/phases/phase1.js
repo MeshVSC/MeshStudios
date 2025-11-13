@@ -43,6 +43,10 @@ export function initPhase1(config) {
   tl.set(".stage", { opacity: 1 });
   tl.set(".scramble-v1", { opacity: 1 });
 
+  // TV static distortion - immediate attention grab
+  tl.call(() => document.querySelector('.stage')?.classList.add('screen-distort'), null, 1.2);
+  tl.call(() => document.querySelector('.stage')?.classList.remove('screen-distort'), null, 1.35);
+
   // schedule glitch bursts (page-wide and 404-only), and sound fx
   GLITCH_TIMES.forEach((t, idx) => {
     tl.add(glitchBurst(), t);

@@ -125,9 +125,33 @@ class IntroSequence {
     const skipBtn = document.getElementById('skipBtn');
     if (skipBtn) {
       skipBtn.addEventListener('click', () => {
-        this.skipToPhase3();
+        this.skipToWebsiteMain();
       });
     }
+  }
+
+  skipToWebsiteMain() {
+    if (this.config.debug) {
+      console.log('[IntroSequence] Skipping directly to WebsiteMain');
+    }
+
+    // Kill all GSAP animations
+    if (window.gsap) {
+      gsap.killTweensOf("*");
+      if (gsap.globalTimeline) gsap.globalTimeline.clear();
+    }
+
+    // Hide all intro phases
+    const stage = document.querySelector('.stage');
+    const phase2 = document.querySelector('.phase2');
+    const phase3 = document.querySelector('.phase3');
+
+    if (stage) stage.style.display = 'none';
+    if (phase2) phase2.style.display = 'none';
+    if (phase3) phase3.style.display = 'none';
+
+    // Trigger WebsiteMain immediately
+    document.dispatchEvent(new CustomEvent('showWebsiteMain'));
   }
 
   skipToPhase2() {

@@ -879,3 +879,55 @@ body.phase3-noise-level-4 .scan {
   0% { background-position: 0 0; }
   100% { background-position: 0 100%; }
 }
+
+/* Screen distortion - monochrome TV static effect */
+.screen-distort {
+  animation: screen-static 0.05s steps(1) infinite;
+}
+
+@keyframes screen-static {
+  0% {
+    clip-path: inset(12% 0 84% 0);
+    filter: brightness(1.2);
+  }
+  10% {
+    clip-path: inset(67% 0 21% 0);
+    filter: brightness(0.7);
+  }
+  20% {
+    clip-path: inset(35% 0 48% 0);
+    filter: brightness(1.5);
+  }
+  30% {
+    clip-path: inset(89% 0 3% 0);
+    filter: brightness(0.5);
+  }
+  40% {
+    clip-path: inset(5% 0 92% 0);
+    filter: brightness(1.8);
+  }
+  50% {
+    clip-path: inset(52% 0 37% 0);
+    filter: brightness(0.3);
+  }
+  60% {
+    clip-path: inset(78% 0 14% 0);
+    filter: brightness(1.3);
+  }
+  70% {
+    clip-path: inset(23% 0 69% 0);
+    filter: brightness(0.9);
+  }
+  80% {
+    clip-path: inset(44% 0 51% 0);
+    filter: brightness(1.6);
+  }
+  90% {
+    clip-path: inset(91% 0 2% 0);
+    filter: brightness(0.4);
+  }
+  100% {
+    clip-path: inset(0 0 100% 0);
+    filter: brightness(1);
+  }
+}
