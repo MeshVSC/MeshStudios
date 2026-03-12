@@ -115,16 +115,6 @@ export class WebsiteMain {
         </section>
 
 
-              <!-- Contact Button -->
-              <div class="mb-16">
-                <button class="contact-btn group relative px-12 py-6 border-2 border-white text-white font-mono text-lg tracking-widest hover:bg-white hover:text-black transition-all duration-300 overflow-hidden">
-                  <span class="relative z-10">GET IN TOUCH</span>
-                  <div class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-                </button>
-              </div>
-
-
-
         <!-- Footer -->
         <footer class="footer-section w-full py-16 bg-black border-t border-white/10">
           <div class="max-w-7xl mx-auto px-8">
