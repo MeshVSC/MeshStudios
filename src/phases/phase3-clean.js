@@ -268,16 +268,18 @@ async function playPhase3Cycle(sentence, cycle, debug) {
 
   await delay(3000);
 
-  let windowsPromise = null;
-  await collapseSentenceToSenseWord(cycle, () => {
-    windowsPromise = launchCycleWindows(cycle, debug);
-  });
+  if (!cycle.final) {
+    let windowsPromise = null;
+    await collapseSentenceToSenseWord(cycle, () => {
+      windowsPromise = launchCycleWindows(cycle, debug);
+    });
 
-  if (windowsPromise) {
-    await windowsPromise;
+    if (windowsPromise) {
+      await windowsPromise;
+    }
+
+    await glitchOutSenseWord(cycle);
   }
-
-  await glitchOutSenseWord(cycle);
   stopPhase3GlitchClassLoop();
 
   if (!cycle.final) {
