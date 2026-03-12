@@ -123,29 +123,7 @@ export class WebsiteMain {
                 </button>
               </div>
 
-              <!-- Contact Methods -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div class="group">
-                  <div class="text-2xl mb-4 text-white/30 group-hover:text-white/60 transition-colors duration-300">📧</div>
-                  <h4 class="text-white font-mono mb-2 tracking-wide">EMAIL</h4>
-                  <p class="text-white/60 text-sm">hello@meshstudios.com</p>
-                </div>
 
-                <div class="group">
-                  <div class="text-2xl mb-4 text-white/30 group-hover:text-white/60 transition-colors duration-300">💬</div>
-                  <h4 class="text-white font-mono mb-2 tracking-wide">DISCORD</h4>
-                  <p class="text-white/60 text-sm">MeshStudios#0001</p>
-                </div>
-
-                <div class="group">
-                  <div class="text-2xl mb-4 text-white/30 group-hover:text-white/60 transition-colors duration-300">📱</div>
-                  <h4 class="text-white font-mono mb-2 tracking-wide">SOCIAL</h4>
-                  <p class="text-white/60 text-sm">@meshstudios</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         <!-- Footer -->
         <footer class="footer-section w-full py-16 bg-black border-t border-white/10">
@@ -163,19 +141,19 @@ export class WebsiteMain {
                 <div class="flex space-x-4">
                   <a href="#" class="text-white/40 hover:text-white transition-colors duration-300">
                     <span class="sr-only">Twitter</span>
-                    🐦
+                    
                   </a>
                   <a href="#" class="text-white/40 hover:text-white transition-colors duration-300">
                     <span class="sr-only">Instagram</span>
-                    📷
+                    
                   </a>
                   <a href="#" class="text-white/40 hover:text-white transition-colors duration-300">
                     <span class="sr-only">LinkedIn</span>
-                    💼
+                    
                   </a>
                   <a href="#" class="text-white/40 hover:text-white transition-colors duration-300">
                     <span class="sr-only">GitHub</span>
-                    👨‍💻
+                    
                   </a>
                 </div>
               </div>
